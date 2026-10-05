@@ -54,12 +54,12 @@ flowchart LR
 
 ## 2. Target Users
 
-| Persona | Typical content | Primary need |
-|---|---|---|
-| 👨‍💻 Everyday developer | Snippets, commands, links, notes | Quickly save and retrieve frequently reused knowledge |
-| ✨ AI-first developer | Prompts, context files, workflows, system messages | Maintain reusable AI context and prompt libraries |
-| 🎓 Creator / educator | Code examples, explanations, course notes | Organize teaching and content-development material |
-| 🧩 Full-stack builder | Boilerplates, APIs, patterns, project resources | Reuse implementation patterns across projects |
+| Persona               | Typical content                                    | Primary need                                          |
+| --------------------- | -------------------------------------------------- | ----------------------------------------------------- |
+| 👨‍💻 Everyday developer | Snippets, commands, links, notes                   | Quickly save and retrieve frequently reused knowledge |
+| ✨ AI-first developer | Prompts, context files, workflows, system messages | Maintain reusable AI context and prompt libraries     |
+| 🎓 Creator / educator | Code examples, explanations, course notes          | Organize teaching and content-development material    |
+| 🧩 Full-stack builder | Boilerplates, APIs, patterns, project resources    | Reuse implementation patterns across projects         |
 
 ### Primary MVP persona
 
@@ -147,15 +147,15 @@ Depending on its type, an item may also contain:
 
 System item types are built into the product and cannot be edited or deleted.
 
-| Type | Storage kind | Icon | Color | Plan |
-|---|---|---|---|---|
-| Snippet | Text | `Code` | `#3b82f6` | Free |
-| Prompt | Text | `Sparkles` | `#8b5cf6` | Free |
-| Command | Text | `Terminal` | `#f97316` | Free |
-| Note | Text | `StickyNote` | `#fde047` | Free |
-| Link | URL | `Link` | `#10b981` | Free |
-| File | File | `File` | `#6b7280` | Pro |
-| Image | File | `Image` | `#ec4899` | Pro |
+| Type    | Storage kind | Icon         | Color     | Plan |
+| ------- | ------------ | ------------ | --------- | ---- |
+| Snippet | Text         | `Code`       | `#3b82f6` | Free |
+| Prompt  | Text         | `Sparkles`   | `#8b5cf6` | Free |
+| Command | Text         | `Terminal`   | `#f97316` | Free |
+| Note    | Text         | `StickyNote` | `#fde047` | Free |
+| Link    | URL          | `Link`       | `#10b981` | Free |
+| File    | File         | `File`       | `#6b7280` | Pro  |
+| Image   | File         | `Image`      | `#ec4899` | Pro  |
 
 Custom item types are planned for a later Pro release.
 
@@ -175,15 +175,15 @@ Examples:
 
 ### Item content rules
 
-| Item type | Required content | Optional content |
-|---|---|---|
-| Snippet | `title`, `content` | language, description, tags |
-| Prompt | `title`, `content` | description, tags |
-| Command | `title`, `content` | description, tags |
-| Note | `title`, `content` | description, tags |
-| Link | `title`, `url` | description, tags |
-| File | `title`, uploaded file | description, tags |
-| Image | `title`, uploaded image | description, tags |
+| Item type | Required content        | Optional content            |
+| --------- | ----------------------- | --------------------------- |
+| Snippet   | `title`, `content`      | language, description, tags |
+| Prompt    | `title`, `content`      | description, tags           |
+| Command   | `title`, `content`      | description, tags           |
+| Note      | `title`, `content`      | description, tags           |
+| Link      | `title`, `url`          | description, tags           |
+| File      | `title`, uploaded file  | description, tags           |
+| Image     | `title`, uploaded image | description, tags           |
 
 ---
 
@@ -344,7 +344,7 @@ Text-based items should use a Markdown-capable editor.
 ````md
 ```ts
 export function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max)
+    return Math.min(Math.max(value, min), max);
 }
 ```
 ````
@@ -771,13 +771,13 @@ Prefer centralized capabilities:
 
 ```ts
 type Entitlements = {
-  maxItems: number | null
-  maxCollections: number | null
-  canUploadFiles: boolean
-  canUseAI: boolean
-  canExport: boolean
-  canCreateCustomTypes: boolean
-}
+    maxItems: number | null;
+    maxCollections: number | null;
+    canUploadFiles: boolean;
+    canUseAI: boolean;
+    canExport: boolean;
+    canCreateCustomTypes: boolean;
+};
 ```
 
 This makes future pricing changes easier.
@@ -942,19 +942,19 @@ Recommended additional behaviors:
 
 ## 10.1 Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 16 |
-| UI runtime | React 19 |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 |
-| Components | shadcn/ui |
-| Database | Neon PostgreSQL |
-| ORM | Prisma 7 |
-| Authentication | NextAuth v5 |
-| File storage | Cloudflare R2 |
-| AI | OpenAI / `gpt-5-nano` |
-| Cache | Redis — optional |
+| Layer          | Technology            |
+| -------------- | --------------------- |
+| Framework      | Next.js 16            |
+| UI runtime     | React 19              |
+| Language       | TypeScript            |
+| Styling        | Tailwind CSS v4       |
+| Components     | shadcn/ui             |
+| Database       | Neon PostgreSQL       |
+| ORM            | Prisma 7              |
+| Authentication | NextAuth v5           |
+| File storage   | Cloudflare R2         |
+| AI             | OpenAI / `gpt-5-nano` |
+| Cache          | Redis — optional      |
 
 ## 10.2 Architecture
 
@@ -1594,3 +1594,7 @@ It combines:
 - ✨ Optional AI enhancements
 
 The core differentiator is not simply storing developer content. It is making reusable technical knowledge **fast enough to capture and find that developers actually build a durable personal library instead of losing useful work across tools.**
+
+## Screenshots as Visual Aid for the Dashboard
+
+Refer to the screenshots in @context/screenshots as a base for the dashboard.
