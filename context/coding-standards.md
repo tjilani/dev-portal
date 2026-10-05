@@ -1,5 +1,9 @@
 # Coding Standards
 
+1. Use latest versions of libraries and idiomatic approaches as of today
+2. keep it simple - NEVER over-engineer, ALWAYS simplify. NO unnecessary defensive programming. No extra features - focus on simplicity
+3. be concise. Keep README minimal. IMPORTANT: never use emojis ever!
+
 ## TypeScript
 
 - Strict mode enabled
@@ -20,12 +24,12 @@
 - Only use `'use client'` when needed (interactivity, hooks, browser APIs)
 - Use Server Actions for form submissions and simple mutations
 - Use API routes when you need:
-  - Webhooks (Stripe, GitHub, etc.)
-  - File uploads with progress tracking
-  - Long-running operations
-  - Specific HTTP status codes or headers
-  - Endpoints for future mobile/CLI clients
-  - Third-party integrations
+    - Webhooks (Stripe, GitHub, etc.)
+    - File uploads with progress tracking
+    - Long-running operations
+    - Specific HTTP status codes or headers
+    - Endpoints for future mobile/CLI clients
+    - Third-party integrations
 - Otherwise, fetch data directly in server components
 - Dynamic routes for item/collection pages
 
