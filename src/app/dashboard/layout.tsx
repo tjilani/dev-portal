@@ -1,15 +1,15 @@
+import AppSidebar from "@/components/dashboard/AppSidebar";
 import TopBar from "@/components/dashboard/TopBar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
   return (
-    <div className="flex h-screen">
-      <aside className="hidden w-64 shrink-0 border-r p-4 md:block">
-        <h2>Sidebar</h2>
-      </aside>
-      <div className="flex min-w-0 flex-1 flex-col">
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="min-w-0">
         <TopBar />
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
-      </div>
-    </div>
+        <div className="flex-1 overflow-y-auto p-6">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

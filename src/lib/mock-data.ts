@@ -23,6 +23,7 @@ export interface MockCollection {
   isFavorite: boolean;
   itemCount: number;
   itemTypeIds: string[];
+  updatedAt: string;
 }
 
 export interface MockItem {
@@ -67,6 +68,7 @@ export const collections: MockCollection[] = [
     isFavorite: true,
     itemCount: 12,
     itemTypeIds: ["type_snippet", "type_note", "type_link"],
+    updatedAt: "2026-01-15T10:00:00Z",
   },
   {
     id: "col_python",
@@ -75,6 +77,7 @@ export const collections: MockCollection[] = [
     isFavorite: false,
     itemCount: 8,
     itemTypeIds: ["type_snippet", "type_note"],
+    updatedAt: "2026-01-06T16:45:00Z",
   },
   {
     id: "col_context",
@@ -83,6 +86,7 @@ export const collections: MockCollection[] = [
     isFavorite: true,
     itemCount: 5,
     itemTypeIds: ["type_file", "type_note"],
+    updatedAt: "2026-01-03T09:00:00Z",
   },
   {
     id: "col_interview",
@@ -91,6 +95,7 @@ export const collections: MockCollection[] = [
     isFavorite: false,
     itemCount: 24,
     itemTypeIds: ["type_note", "type_snippet", "type_link", "type_prompt"],
+    updatedAt: "2026-01-14T12:00:00Z",
   },
   {
     id: "col_git",
@@ -99,6 +104,7 @@ export const collections: MockCollection[] = [
     isFavorite: true,
     itemCount: 15,
     itemTypeIds: ["type_command", "type_note"],
+    updatedAt: "2026-01-10T14:20:00Z",
   },
   {
     id: "col_ai",
@@ -107,6 +113,7 @@ export const collections: MockCollection[] = [
     isFavorite: false,
     itemCount: 18,
     itemTypeIds: ["type_prompt", "type_snippet", "type_note"],
+    updatedAt: "2026-01-09T08:15:00Z",
   },
 ];
 
