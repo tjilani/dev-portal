@@ -1,9 +1,6 @@
+import { DEMO_USER_FILTER } from "@/lib/db/demo-user";
 import { prisma } from "@/lib/prisma";
 import type { CollectionItemType, CollectionStats, DashboardCollection } from "@/types/collection";
-
-// Until authentication exists, all queries are scoped to the seeded demo user.
-const DEMO_USER_EMAIL = "demo@devstash.io";
-const DEMO_USER_FILTER = { user: { email: DEMO_USER_EMAIL } };
 
 export async function getRecentCollections(limit = 6): Promise<DashboardCollection[]> {
   const collections = await prisma.collection.findMany({

@@ -4,7 +4,7 @@ import CollectionCard from "@/components/dashboard/CollectionCard";
 import ItemCard from "@/components/dashboard/ItemCard";
 import StatsCard from "@/components/dashboard/StatsCard";
 import { getCollectionStats, getRecentCollections } from "@/lib/db/collections";
-import { items } from "@/lib/mock-data";
+import { getItemStats, getPinnedItems, getRecentItems } from "@/lib/db/items";
 
 export const dynamic = "force-dynamic";
 
@@ -12,19 +12,18 @@ const RECENT_COLLECTIONS_LIMIT = 6;
 const RECENT_ITEMS_LIMIT = 10;
 
 export default async function DashboardPage() {
-  const [recentCollections, collectionStats] = await Promise.all([
+  const [recentCollections, collectionStats, pinnedItems, recentItems, itemStats] = await Promise.all([
     getRecentCollections(RECENT_COLLECTIONS_LIMIT),
     getCollectionStats(),
+    getPinnedItems(),
+    getRecentItems(RECENT_ITEMS_LIMIT),
+    getItemStats(),
   ]);
-  const pinnedItems = items.filter((item) => item.isPinned);
-  const recentItems = items
-    .toSorted((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-    .slice(0, RECENT_ITEMS_LIMIT);
 
   const stats = [
-    { label: "Items", value: items.length, icon: Layers },
+    { label: "Items", value: itemStats.total, icon: Layers },
     { label: "Collections", value: collectionStats.total, icon: Folder },
-    { label: "Favorite Items", value: items.filter((item) => item.isFavorite).length, icon: Star },
+    { label: "Favorite Items", value: itemStats.favorites, icon: Star },
     { label: "Favorite Collections", value: collectionStats.favorites, icon: FolderHeart },
   ];
 
@@ -55,17 +54,19 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-4">
-        <h2 className="flex items-center gap-2 text-xl font-semibold">
-          <Pin className="size-4 text-muted-foreground" />
-          Pinned
-        </h2>
-        <div className="flex flex-col gap-3">
-          {pinnedItems.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
-        </div>
-      </section>
+      {pinnedItems.length > 0 && (
+        <section className="flex flex-col gap-4">
+          <h2 className="flex items-center gap-2 text-xl font-semibold">
+            <Pin className="size-4 text-muted-foreground" />
+            Pinned
+          </h2>
+          <div className="flex flex-col gap-3">
+            {pinnedItems.map((item) => (
+              <ItemCard key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">Recent Items</h2>

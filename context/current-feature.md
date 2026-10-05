@@ -1,6 +1,6 @@
 # Current Feature
 
-Dashboard Collections - replace the mock collection data in the dashboard main area with real data from the Neon database via Prisma. Keep the current look with the 6 recent collection cards.
+Dashboard Items - replace the mock item data in the dashboard main area (pinned and recent items) with real data from the Neon database via Prisma. Keep the current look.
 
 ## Status
 
@@ -8,18 +8,19 @@ completed
 
 ## Goals
 
-- Create `src/lib/db/collections.ts` with data fetching functions
-- Fetch collections directly in the server component
-- Collection card border color derived from the most-used content type in that collection
-- Show small icons of all types in that collection
-- Keep the current design (reference @context/screenshots/dashboard-ui-main.png if needed)
-- Update collection stats display
+- Create `src/lib/db/items.ts` with data fetching functions
+- Fetch items directly in the server component
+- Item card icon/border derived from the item type
+- Display item tags and everything else currently on the card (reference @context/screenshots/dashboard-ui-main.png if needed)
+- If there are no pinned items, the pinned section does not display at all
+- Update stats display (items and favorite items from the database)
 
 ## Notes
 
-- Full spec: @context/features/dashboard-collections-spec.md
-- Do not add the items underneath yet (pinned/recent items stay on mock data for now)
-- No authentication yet - scope queries to the seeded demo user (demo@devstash.io) until auth is implemented
+- Full spec: @context/features/dashboard-items-spec.md
+- The spec says "Update collection stats display"; collection stats were already moved in the previous feature, so this covers the item stats (Items, Favorite Items)
+- No authentication yet - scope queries to the seeded demo user (demo@devstash.io), same as `src/lib/db/collections.ts`
+- The seed has no pinned items, favorites or tags, so the pinned section will be hidden and tags empty until such data exists
 - Sidebar still uses mock data - out of scope for this feature
 
 ## History
@@ -32,3 +33,4 @@ completed
 - 2026-10-05: Prisma + Neon setup completed - Prisma 7.10 with Neon adapter, initial schema with NextAuth models, init migration applied to dev branch
 - 2026-10-05: Seed data completed - user password field migration, re-runnable prisma/seed.ts with demo user, 7 system item types, 5 collections, 18 items
 - 2026-10-05: Dashboard collections completed - recent collection cards and collection stats loaded from Neon via src/lib/db/collections.ts, border color from most-used type
+- 2026-10-05: Dashboard items completed - pinned/recent items and item stats loaded from Neon via src/lib/db/items.ts, pinned section hidden when empty, seed adds pinned and favorite items

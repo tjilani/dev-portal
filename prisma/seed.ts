@@ -9,6 +9,8 @@ interface SeedItem {
   content?: string;
   url?: string;
   language?: string;
+  isPinned?: boolean;
+  isFavorite?: boolean;
 }
 
 interface SeedCollection {
@@ -43,6 +45,8 @@ const COLLECTIONS: SeedCollection[] = [
         title: "useDebounce and useLocalStorage Hooks",
         description: "Custom hooks for debouncing values and persisting state in localStorage",
         language: "typescript",
+        isPinned: true,
+        isFavorite: true,
         content: `import { useEffect, useState } from "react";
 
 export function useDebounce<T>(value: T, delay = 300): T {
@@ -135,6 +139,7 @@ export function formatDate(date: Date, locale = "en-US") {
         type: "prompts",
         title: "Code Review Prompt",
         description: "Thorough review focused on bugs, security and performance",
+        isPinned: true,
         content: `Review the following code as a senior engineer.
 
 For each issue found, report:
@@ -215,6 +220,7 @@ CMD ["node", "server.js"]`,
         type: "commands",
         title: "Deploy with Migrations",
         description: "Apply pending Prisma migrations, then build and start the app",
+        isFavorite: true,
         language: "bash",
         content: `npx prisma migrate deploy && npm run build && npm run start`,
       },
@@ -248,6 +254,7 @@ CMD ["node", "server.js"]`,
         title: "Docker Cleanup",
         description: "Remove unused containers, images, networks and volumes",
         language: "bash",
+        isFavorite: true,
         content: `docker system prune -a --volumes`,
       },
       {
@@ -274,6 +281,7 @@ CMD ["node", "server.js"]`,
         type: "links",
         title: "Tailwind CSS Documentation",
         description: "Utility-first CSS framework reference",
+        isFavorite: true,
         url: "https://tailwindcss.com/docs",
       },
       {
