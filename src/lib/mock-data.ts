@@ -51,13 +51,13 @@ export const currentUser: MockUser = {
 };
 
 export const itemTypes: MockItemType[] = [
-  { id: "type_snippet", name: "Snippets", slug: "snippets", icon: "Code", color: "#3b82f6", isSystem: true, count: 24 },
-  { id: "type_prompt", name: "Prompts", slug: "prompts", icon: "Sparkles", color: "#8b5cf6", isSystem: true, count: 18 },
-  { id: "type_command", name: "Commands", slug: "commands", icon: "Terminal", color: "#f97316", isSystem: true, count: 15 },
-  { id: "type_note", name: "Notes", slug: "notes", icon: "StickyNote", color: "#fde047", isSystem: true, count: 12 },
-  { id: "type_file", name: "Files", slug: "files", icon: "File", color: "#6b7280", isSystem: true, count: 5 },
-  { id: "type_image", name: "Images", slug: "images", icon: "Image", color: "#ec4899", isSystem: true, count: 3 },
-  { id: "type_link", name: "Links", slug: "links", icon: "Link", color: "#10b981", isSystem: true, count: 8 },
+  { id: "type_snippet", name: "Snippets", slug: "snippets", icon: "Code", color: "#3b82f6", isSystem: true, count: 4 },
+  { id: "type_prompt", name: "Prompts", slug: "prompts", icon: "Sparkles", color: "#8b5cf6", isSystem: true, count: 2 },
+  { id: "type_command", name: "Commands", slug: "commands", icon: "Terminal", color: "#f97316", isSystem: true, count: 2 },
+  { id: "type_note", name: "Notes", slug: "notes", icon: "StickyNote", color: "#fde047", isSystem: true, count: 1 },
+  { id: "type_file", name: "Files", slug: "files", icon: "File", color: "#6b7280", isSystem: true, count: 0 },
+  { id: "type_image", name: "Images", slug: "images", icon: "Image", color: "#ec4899", isSystem: true, count: 0 },
+  { id: "type_link", name: "Links", slug: "links", icon: "Link", color: "#10b981", isSystem: true, count: 2 },
 ];
 
 export const collections: MockCollection[] = [
@@ -66,8 +66,8 @@ export const collections: MockCollection[] = [
     name: "React Patterns",
     description: "Common React patterns and hooks",
     isFavorite: true,
-    itemCount: 12,
-    itemTypeIds: ["type_snippet", "type_note", "type_link"],
+    itemCount: 4,
+    itemTypeIds: ["type_snippet", "type_link"],
     updatedAt: "2026-01-15T10:00:00Z",
   },
   {
@@ -75,8 +75,8 @@ export const collections: MockCollection[] = [
     name: "Python Snippets",
     description: "Useful Python code snippets",
     isFavorite: false,
-    itemCount: 8,
-    itemTypeIds: ["type_snippet", "type_note"],
+    itemCount: 1,
+    itemTypeIds: ["type_snippet"],
     updatedAt: "2026-01-06T16:45:00Z",
   },
   {
@@ -84,8 +84,8 @@ export const collections: MockCollection[] = [
     name: "Context Files",
     description: "AI context files for projects",
     isFavorite: true,
-    itemCount: 5,
-    itemTypeIds: ["type_file", "type_note"],
+    itemCount: 1,
+    itemTypeIds: ["type_prompt"],
     updatedAt: "2026-01-03T09:00:00Z",
   },
   {
@@ -93,8 +93,8 @@ export const collections: MockCollection[] = [
     name: "Interview Prep",
     description: "Technical interview preparation",
     isFavorite: false,
-    itemCount: 24,
-    itemTypeIds: ["type_note", "type_snippet", "type_link", "type_prompt"],
+    itemCount: 4,
+    itemTypeIds: ["type_snippet", "type_note", "type_link"],
     updatedAt: "2026-01-14T12:00:00Z",
   },
   {
@@ -102,8 +102,8 @@ export const collections: MockCollection[] = [
     name: "Git Commands",
     description: "Frequently used git commands",
     isFavorite: true,
-    itemCount: 15,
-    itemTypeIds: ["type_command", "type_note"],
+    itemCount: 1,
+    itemTypeIds: ["type_command"],
     updatedAt: "2026-01-10T14:20:00Z",
   },
   {
@@ -111,8 +111,8 @@ export const collections: MockCollection[] = [
     name: "AI Prompts",
     description: "Curated AI prompts for coding",
     isFavorite: false,
-    itemCount: 18,
-    itemTypeIds: ["type_prompt", "type_snippet", "type_note"],
+    itemCount: 2,
+    itemTypeIds: ["type_prompt"],
     updatedAt: "2026-01-09T08:15:00Z",
   },
 ];
@@ -233,5 +233,72 @@ export const items: MockItem[] = [
     isPinned: false,
     createdAt: "2026-01-02T08:00:00Z",
     updatedAt: "2026-01-02T08:00:00Z",
+  },
+  {
+    id: "item_8",
+    title: "Docker Cleanup",
+    description: "Remove unused containers, images, networks and volumes",
+    content: "docker system prune -a --volumes",
+    url: null,
+    language: "bash",
+    itemTypeId: "type_command",
+    collectionIds: [],
+    tags: ["docker", "cleanup"],
+    isFavorite: false,
+    isPinned: false,
+    createdAt: "2026-01-13T15:00:00Z",
+    updatedAt: "2026-01-13T15:00:00Z",
+  },
+  {
+    id: "item_9",
+    title: "Project Context File",
+    description: "Base context file template for AI coding assistants",
+    content: "# Project\n\n## Stack\n\n## Coding Standards\n\n## Current Feature",
+    url: null,
+    language: null,
+    itemTypeId: "type_prompt",
+    collectionIds: ["col_ai", "col_context"],
+    tags: ["ai", "context"],
+    isFavorite: true,
+    isPinned: false,
+    createdAt: "2026-01-11T10:30:00Z",
+    updatedAt: "2026-01-14T09:45:00Z",
+  },
+  {
+    id: "item_10",
+    title: "useDebounce Hook",
+    description: "React hook for delaying a value update",
+    content: `export function useDebounce<T>(value: T, delay = 300): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(id);
+  }, [value, delay]);
+  return debounced;
+}`,
+    url: null,
+    language: "typescript",
+    itemTypeId: "type_snippet",
+    collectionIds: ["col_react", "col_interview"],
+    tags: ["react", "hooks", "performance"],
+    isFavorite: false,
+    isPinned: false,
+    createdAt: "2026-01-07T13:00:00Z",
+    updatedAt: "2026-01-07T13:00:00Z",
+  },
+  {
+    id: "item_11",
+    title: "Tailwind CSS Docs",
+    description: "Official Tailwind CSS v4 documentation",
+    content: null,
+    url: "https://tailwindcss.com/docs",
+    language: null,
+    itemTypeId: "type_link",
+    collectionIds: [],
+    tags: ["css", "docs"],
+    isFavorite: false,
+    isPinned: false,
+    createdAt: "2026-01-01T09:00:00Z",
+    updatedAt: "2026-01-01T09:00:00Z",
   },
 ];
