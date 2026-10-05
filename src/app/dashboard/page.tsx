@@ -3,15 +3,19 @@ import { Folder, FolderHeart, Layers, Pin, Star } from "lucide-react";
 import CollectionCard from "@/components/dashboard/CollectionCard";
 import ItemCard from "@/components/dashboard/ItemCard";
 import StatsCard from "@/components/dashboard/StatsCard";
-import { collections, items } from "@/lib/mock-data";
+import { getCollectionStats, getRecentCollections } from "@/lib/db/collections";
+import { items } from "@/lib/mock-data";
+
+export const dynamic = "force-dynamic";
 
 const RECENT_COLLECTIONS_LIMIT = 6;
 const RECENT_ITEMS_LIMIT = 10;
 
-export default function DashboardPage() {
-  const recentCollections = collections
-    .toSorted((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-    .slice(0, RECENT_COLLECTIONS_LIMIT);
+export default async function DashboardPage() {
+  const [recentCollections, collectionStats] = await Promise.all([
+    getRecentCollections(RECENT_COLLECTIONS_LIMIT),
+    getCollectionStats(),
+  ]);
   const pinnedItems = items.filter((item) => item.isPinned);
   const recentItems = items
     .toSorted((a, b) => b.updatedAt.localeCompare(a.updatedAt))
@@ -19,9 +23,9 @@ export default function DashboardPage() {
 
   const stats = [
     { label: "Items", value: items.length, icon: Layers },
-    { label: "Collections", value: collections.length, icon: Folder },
+    { label: "Collections", value: collectionStats.total, icon: Folder },
     { label: "Favorite Items", value: items.filter((item) => item.isFavorite).length, icon: Star },
-    { label: "Favorite Collections", value: collections.filter((c) => c.isFavorite).length, icon: FolderHeart },
+    { label: "Favorite Collections", value: collectionStats.favorites, icon: FolderHeart },
   ];
 
   return (

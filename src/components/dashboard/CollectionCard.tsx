@@ -2,15 +2,14 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ITEM_TYPE_ICONS } from "@/lib/item-type-icons";
-import { itemTypes, type MockCollection } from "@/lib/mock-data";
+import type { DashboardCollection } from "@/types/collection";
 
 interface CollectionCardProps {
-  collection: MockCollection;
+  collection: DashboardCollection;
 }
 
 export default function CollectionCard({ collection }: CollectionCardProps) {
-  const types = collection.itemTypeIds.map((id) => itemTypes.find((type) => type.id === id)!);
-  const accentColor = types[0]?.color;
+  const accentColor = collection.itemTypes[0]?.color;
 
   return (
     <Link href={`/collections/${collection.id}`}>
@@ -26,9 +25,9 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
             </div>
             <p className="text-sm text-muted-foreground">{collection.itemCount} items</p>
           </div>
-          <p className="text-sm text-muted-foreground">{collection.description}</p>
+          {collection.description && <p className="text-sm text-muted-foreground">{collection.description}</p>}
           <div className="flex gap-2">
-            {types.map((type) => {
+            {collection.itemTypes.map((type) => {
               const Icon = ITEM_TYPE_ICONS[type.icon];
               return <Icon key={type.id} className="size-4" style={{ color: type.color }} />;
             })}
