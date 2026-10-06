@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Folder, Layers, Settings, Star } from "lucide-react";
+import { Folder, FolderOpen, Layers, Settings, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
@@ -15,17 +15,18 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import { getSidebarCollections } from "@/lib/db/collections";
+import { getSidebarItemTypes } from "@/lib/db/items";
 import { ITEM_TYPE_ICONS } from "@/lib/item-type-icons";
-import { collections, currentUser, itemTypes } from "@/lib/mock-data";
+import { currentUser } from "@/lib/mock-data";
 
 const RECENT_COLLECTIONS_LIMIT = 5;
 
-export default function AppSidebar() {
-  const favoriteCollections = collections.filter((c) => c.isFavorite);
-  const recentCollections = collections
-    .filter((c) => !c.isFavorite)
-    .toSorted((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-    .slice(0, RECENT_COLLECTIONS_LIMIT);
+export default async function AppSidebar() {
+  const [itemTypes, { favorites, recent }] = await Promise.all([
+    getSidebarItemTypes(),
+    getSidebarCollections(RECENT_COLLECTIONS_LIMIT),
+  ]);
   const initials = currentUser.name
     .split(" ")
     .map((part) => part[0])
@@ -54,9 +55,9 @@ export default function AppSidebar() {
               const Icon = ITEM_TYPE_ICONS[type.icon];
               return (
                 <SidebarMenuItem key={type.id}>
-                  <SidebarMenuButton tooltip={type.name} render={<Link href={`/items/${type.slug}`} />}>
+                  <SidebarMenuButton tooltip={type.slug} render={<Link href={`/items/${type.slug}`} />}>
                     <Icon style={{ color: type.color }} />
-                    <span>{type.name}</span>
+                    <span className="capitalize">{type.slug}</span>
                   </SidebarMenuButton>
                   <SidebarMenuBadge>{type.count}</SidebarMenuBadge>
                 </SidebarMenuItem>
@@ -67,35 +68,52 @@ export default function AppSidebar() {
 
         <SidebarSeparator />
 
+        {favorites.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+            <SidebarMenu>
+              {favorites.map((collection) => (
+                <SidebarMenuItem key={collection.id}>
+                  <SidebarMenuButton tooltip={collection.name} render={<Link href={`/collections/${collection.id}`} />}>
+                    <Folder />
+                    <span>{collection.name}</span>
+                  </SidebarMenuButton>
+                  <SidebarMenuBadge>
+                    <Star className="size-4 fill-yellow-400 text-yellow-400" />
+                  </SidebarMenuBadge>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
+        )}
+
         <SidebarGroup>
-          <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+          <SidebarGroupLabel>Recent Collections</SidebarGroupLabel>
           <SidebarMenu>
-            {favoriteCollections.map((collection) => (
+            {recent.map((collection) => (
               <SidebarMenuItem key={collection.id}>
                 <SidebarMenuButton tooltip={collection.name} render={<Link href={`/collections/${collection.id}`} />}>
                   <Folder />
                   <span>{collection.name}</span>
                 </SidebarMenuButton>
                 <SidebarMenuBadge>
-                  <Star className="size-4 fill-yellow-400 text-yellow-400" />
+                  <span
+                    className="size-2.5 rounded-full bg-muted-foreground"
+                    style={{ backgroundColor: collection.itemTypes[0]?.color }}
+                  />
                 </SidebarMenuBadge>
               </SidebarMenuItem>
             ))}
-          </SidebarMenu>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Recent Collections</SidebarGroupLabel>
-          <SidebarMenu>
-            {recentCollections.map((collection) => (
-              <SidebarMenuItem key={collection.id}>
-                <SidebarMenuButton tooltip={collection.name} render={<Link href={`/collections/${collection.id}`} />}>
-                  <Folder />
-                  <span>{collection.name}</span>
-                </SidebarMenuButton>
-                <SidebarMenuBadge>{collection.itemCount}</SidebarMenuBadge>
-              </SidebarMenuItem>
-            ))}
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                tooltip="View all collections"
+                className="text-muted-foreground"
+                render={<Link href="/collections" />}
+              >
+                <FolderOpen />
+                <span>View all collections</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

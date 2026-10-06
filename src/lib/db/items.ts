@@ -1,7 +1,7 @@
 import { DEMO_USER_FILTER } from "@/lib/db/demo-user";
 import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import type { DashboardItem, ItemStats } from "@/types/item";
+import type { DashboardItem, ItemStats, SidebarItemType } from "@/types/item";
 
 const DASHBOARD_ITEM_SELECT = {
   id: true,
@@ -39,6 +39,22 @@ export async function getRecentItems(limit = 10): Promise<DashboardItem[]> {
   });
 
   return items.map(toDashboardItem);
+}
+
+export async function getSidebarItemTypes(): Promise<SidebarItemType[]> {
+  const types = await prisma.itemType.findMany({
+    where: { isSystem: true },
+    orderBy: { name: "asc" },
+    select: {
+      id: true,
+      slug: true,
+      icon: true,
+      color: true,
+      _count: { select: { items: { where: DEMO_USER_FILTER } } },
+    },
+  });
+
+  return types.map(({ _count, ...type }) => ({ ...type, count: _count.items }));
 }
 
 export async function getItemStats(): Promise<ItemStats> {

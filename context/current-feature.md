@@ -1,6 +1,6 @@
 # Current Feature
 
-Dashboard Items - replace the mock item data in the dashboard main area (pinned and recent items) with real data from the Neon database via Prisma. Keep the current look.
+Stats & Sidebar - show the main area stats and the sidebar (system item types and collections) from the Neon database instead of @src/lib/mock-data.ts.
 
 ## Status
 
@@ -8,20 +8,20 @@ completed
 
 ## Goals
 
-- Create `src/lib/db/items.ts` with data fetching functions
-- Fetch items directly in the server component
-- Item card icon/border derived from the item type
-- Display item tags and everything else currently on the card (reference @context/screenshots/dashboard-ui-main.png if needed)
-- If there are no pinned items, the pinned section does not display at all
-- Update stats display (items and favorite items from the database)
+- Display stats pertaining to database data, keeping the current design/layout
+- Display system item types in the sidebar with their icons, linking to /items/[typename]
+- Add a "View all collections" link under the collections list that goes to /collections
+- Keep the star icons for favorite collections; for recent collections, show a colored circle based on the most-used item type in that collection
+- Add the database functions to @src/lib/db/items.ts (use @src/lib/db/collections.ts for reference)
 
 ## Notes
 
-- Full spec: @context/features/dashboard-items-spec.md
-- The spec says "Update collection stats display"; collection stats were already moved in the previous feature, so this covers the item stats (Items, Favorite Items)
-- No authentication yet - scope queries to the seeded demo user (demo@devstash.io), same as `src/lib/db/collections.ts`
-- The seed has no pinned items, favorites or tags, so the pinned section will be hidden and tags empty until such data exists
-- Sidebar still uses mock data - out of scope for this feature
+- Full spec: @context/features/stats-sidebar-spec.md
+- The main area stats already come from the database (done in the dashboard collections/items features) - verify only
+- `src/lib/db/items.ts` already exists - extend it rather than create it
+- Item type links use the plural slug (/items/snippets), matching the seed
+- No authentication yet - scope queries to the seeded demo user via `src/lib/db/demo-user.ts`
+- Keep `src/lib/mock-data.ts` for now - the sidebar user area stays on mock data (`currentUser`) until auth is implemented
 
 ## History
 
@@ -34,3 +34,4 @@ completed
 - 2026-10-05: Seed data completed - user password field migration, re-runnable prisma/seed.ts with demo user, 7 system item types, 5 collections, 18 items
 - 2026-10-05: Dashboard collections completed - recent collection cards and collection stats loaded from Neon via src/lib/db/collections.ts, border color from most-used type
 - 2026-10-05: Dashboard items completed - pinned/recent items and item stats loaded from Neon via src/lib/db/items.ts, pinned section hidden when empty, seed adds pinned and favorite items
+- 2026-10-06: Stats & sidebar completed - sidebar item types and favorite/recent collections loaded from Neon, colored circles for recents, "View all collections" link; user area stays on mock data

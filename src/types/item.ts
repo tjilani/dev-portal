@@ -13,6 +13,14 @@ export interface DashboardItem {
   tags: string[];
 }
 
+export interface SidebarItemType {
+  id: string;
+  slug: string;
+  icon: string;
+  color: string;
+  count: number;
+}
+
 export interface ItemStats {
   total: number;
   favorites: number;
