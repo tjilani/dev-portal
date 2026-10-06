@@ -16,6 +16,7 @@ interface SeedItem {
 interface SeedCollection {
   name: string;
   description: string;
+  isFavorite?: boolean;
   items: SeedItem[];
 }
 
@@ -39,6 +40,7 @@ const COLLECTIONS: SeedCollection[] = [
   {
     name: "React Patterns",
     description: "Reusable React patterns and hooks",
+    isFavorite: true,
     items: [
       {
         type: "snippets",
@@ -241,6 +243,7 @@ CMD ["node", "server.js"]`,
   {
     name: "Terminal Commands",
     description: "Useful shell commands for everyday development",
+    isFavorite: true,
     items: [
       {
         type: "commands",
@@ -342,6 +345,7 @@ async function seedCollections(userId: string, typeIds: Map<string, string>) {
       data: {
         name: collection.name,
         description: collection.description,
+        isFavorite: collection.isFavorite ?? false,
         user: { connect: { id: userId } },
         items: {
           create: collection.items.map(({ type, ...item }) => ({
