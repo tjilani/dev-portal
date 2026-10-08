@@ -1,27 +1,25 @@
-# Current Feature
+# Current Feature: Add Pro Badge to Sidebar
 
-Stats & Sidebar - show the main area stats and the sidebar (system item types and collections) from the Neon database instead of @src/lib/mock-data.ts.
+Add a PRO badge to the Files and Images item types in the sidebar.
 
 ## Status
 
-completed
+In Progress
 
 ## Goals
 
-- Display stats pertaining to database data, keeping the current design/layout
-- Display system item types in the sidebar with their icons, linking to /items/[typename]
-- Add a "View all collections" link under the collections list that goes to /collections
-- Keep the star icons for favorite collections; for recent collections, show a colored circle based on the most-used item type in that collection
-- Add the database functions to @src/lib/db/items.ts (use @src/lib/db/collections.ts for reference)
+- Show a PRO badge next to the Files and Images item types in the sidebar
+- Use the shadcn/ui Badge component (`src/components/ui/badge.tsx`)
+- Keep the badge clean and subtle
+- Display the label as all-uppercase "PRO"
 
 ## Notes
 
-- Full spec: @context/features/stats-sidebar-spec.md
-- The main area stats already come from the database (done in the dashboard collections/items features) - verify only
-- `src/lib/db/items.ts` already exists - extend it rather than create it
-- Item type links use the plural slug (/items/snippets), matching the seed
-- No authentication yet - scope queries to the seeded demo user via `src/lib/db/demo-user.ts`
-- Keep `src/lib/mock-data.ts` for now - the sidebar user area stays on mock data (`currentUser`) until auth is implemented
+- Full spec: @context/features/add.-pro-badge-sidebar.md
+- Badge component is already installed (also used in `src/components/dashboard/ItemCard.tsx`)
+- Files and Images are the Pro-only system types (slugs `files` and `images`)
+- Visual indicator only - no entitlement enforcement in this feature
+- Hide the badge when the sidebar is collapsed to icons
 
 ## History
 

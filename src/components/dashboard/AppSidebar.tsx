@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Folder, FolderOpen, Layers, Settings, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -21,6 +22,7 @@ import { ITEM_TYPE_ICONS } from "@/lib/item-type-icons";
 import { currentUser } from "@/lib/mock-data";
 
 const RECENT_COLLECTIONS_LIMIT = 5;
+const PRO_TYPE_SLUGS = ["files", "images"];
 
 export default async function AppSidebar() {
   const [itemTypes, { favorites, recent }] = await Promise.all([
@@ -58,6 +60,14 @@ export default async function AppSidebar() {
                   <SidebarMenuButton tooltip={type.slug} render={<Link href={`/items/${type.slug}`} />}>
                     <Icon style={{ color: type.color }} />
                     <span className="capitalize">{type.slug}</span>
+                    {PRO_TYPE_SLUGS.includes(type.slug) && (
+                      <Badge
+                        variant="outline"
+                        className="h-4 px-1.5 text-[10px] font-semibold tracking-wide text-muted-foreground group-data-[collapsible=icon]:hidden"
+                      >
+                        PRO
+                      </Badge>
+                    )}
                   </SidebarMenuButton>
                   <SidebarMenuBadge>{type.count}</SidebarMenuBadge>
                 </SidebarMenuItem>
