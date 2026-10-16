@@ -1,26 +1,16 @@
-# Current Feature: Type Color CSS Variable
-
-Replace inline color styles with a CSS variable and Tailwind classes.
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Add one helper in `src/lib/` that turns a DB color into `{ "--type-color": color }` as `CSSProperties`
-- Replace the six inline color styles with the helper plus Tailwind classes (`text-(--type-color)`, `bg-(--type-color)`, `border-l-(--type-color)`):
-  - `AppSidebar.tsx`: item type icon, recent collection dot
-  - `CollectionCard.tsx`: card left border, type icons
-  - `ItemCard.tsx`: card left border, type icon
-- Add an exception to "No inline styles" in `context/coding-standards.md`: setting a CSS variable from database data is allowed
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Source: @audit/audit-2026-10-15.md (Low: Inline styles for type colors)
-- Colors come from the DB (`ItemType.color`), so they can't be static Tailwind classes; this also works for future custom types
-- Keep fallbacks: recent collection dot stays `bg-muted-foreground` and the collection card border stays default when a collection has no items
-- No visual changes
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -37,3 +27,4 @@ In Progress
 - 2026-10-08: Pro badge in sidebar completed - subtle outline PRO badge (shadcn Badge) on Files and Images item types, hidden when sidebar is collapsed
 - 2026-10-16: Audit quick wins completed - icon fallback helper, removed duplicate limit defaults, minimal favorites select sorted by name, .editorconfig
 - 2026-10-16: System item type unique slug completed - partial unique index on ItemType.slug where userId IS NULL (preview feature partialIndexes), migration applied to dev branch
+- 2026-10-16: Type color CSS variable completed - typeColorStyle() sets --type-color, Tailwind classes replace six inline color styles, var() fallbacks for empty collections, coding-standards exception added
