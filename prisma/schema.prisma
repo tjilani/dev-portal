@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["partialIndexes"]
 }
 
 datasource db {
@@ -133,6 +134,7 @@ model ItemType {
   defaultFor Collection[]
 
   @@unique([userId, slug])
+  @@unique([slug], map: "ItemType_system_slug_key", where: raw("\"userId\" IS NULL"))
 }
 
 model Collection {
