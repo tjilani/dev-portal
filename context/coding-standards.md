@@ -2,7 +2,7 @@
 
 1. Use latest versions of libraries and idiomatic approaches as of today
 2. keep it simple - NEVER over-engineer, ALWAYS simplify. NO unnecessary defensive programming. No extra features - focus on simplicity
-3. be concise. Keep README minimal. IMPORTANT: never use emojis ever!
+3. be concise. Keep README minimal. IMPORTANT: use emojis only for success/approval, fail/error and caution/warnings!
 
 ## TypeScript
 
