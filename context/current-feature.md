@@ -1,22 +1,16 @@
-# Current Feature: Audit Quick Wins
-
-Fix three quick wins from the code audit.
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Add a `getItemTypeIcon(name)` helper in `src/lib/item-type-icons.ts` that falls back to the `File` icon, and use it in `AppSidebar.tsx`, `CollectionCard.tsx` and `ItemCard.tsx`
-- Remove the duplicated default limit parameters from `getRecentCollections`, `getSidebarCollections` and `getRecentItems`; keep the constants at the call sites
-- Give the sidebar favorites query in `src/lib/db/collections.ts` a minimal `select: { id, name }` instead of loading all memberships
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Source: @audit/audit-2026-10-15.md (Quick wins 1, 3 and 4)
-- Keep `src/lib/mock-data.ts` unchanged - mock data stays
-- No behavior or UI changes, except sidebar favorites are now sorted alphabetically by name
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -31,3 +25,4 @@ In Progress
 - 2026-10-05: Dashboard items completed - pinned/recent items and item stats loaded from Neon via src/lib/db/items.ts, pinned section hidden when empty, seed adds pinned and favorite items
 - 2026-10-06: Stats & sidebar completed - sidebar item types and favorite/recent collections loaded from Neon, colored circles for recents, "View all collections" link; user area stays on mock data
 - 2026-10-08: Pro badge in sidebar completed - subtle outline PRO badge (shadcn Badge) on Files and Images item types, hidden when sidebar is collapsed
+- 2026-10-16: Audit quick wins completed - icon fallback helper, removed duplicate limit defaults, minimal favorites select sorted by name, .editorconfig
