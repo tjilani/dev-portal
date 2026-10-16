@@ -30,7 +30,7 @@ export async function getPinnedItems(): Promise<DashboardItem[]> {
   return items.map(toDashboardItem);
 }
 
-export async function getRecentItems(limit = 10): Promise<DashboardItem[]> {
+export async function getRecentItems(limit: number): Promise<DashboardItem[]> {
   const items = await prisma.item.findMany({
     where: DEMO_USER_FILTER,
     orderBy: { updatedAt: "desc" },

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getSidebarCollections } from "@/lib/db/collections";
 import { getSidebarItemTypes } from "@/lib/db/items";
-import { ITEM_TYPE_ICONS } from "@/lib/item-type-icons";
+import { getItemTypeIcon } from "@/lib/item-type-icons";
 import { currentUser } from "@/lib/mock-data";
 
 const RECENT_COLLECTIONS_LIMIT = 5;
@@ -54,7 +54,7 @@ export default async function AppSidebar() {
           <SidebarGroupLabel>Types</SidebarGroupLabel>
           <SidebarMenu>
             {itemTypes.map((type) => {
-              const Icon = ITEM_TYPE_ICONS[type.icon];
+              const Icon = getItemTypeIcon(type.icon);
               return (
                 <SidebarMenuItem key={type.id}>
                   <SidebarMenuButton tooltip={type.slug} render={<Link href={`/items/${type.slug}`} />}>

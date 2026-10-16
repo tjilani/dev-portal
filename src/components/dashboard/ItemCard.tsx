@@ -1,7 +1,7 @@
 import { Pin, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ITEM_TYPE_ICONS } from "@/lib/item-type-icons";
+import { getItemTypeIcon } from "@/lib/item-type-icons";
 import type { DashboardItem } from "@/types/item";
 
 interface ItemCardProps {
@@ -10,7 +10,7 @@ interface ItemCardProps {
 
 export default function ItemCard({ item }: ItemCardProps) {
   const { itemType } = item;
-  const Icon = ITEM_TYPE_ICONS[itemType.icon];
+  const Icon = getItemTypeIcon(itemType.icon);
   const date = item.updatedAt.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",

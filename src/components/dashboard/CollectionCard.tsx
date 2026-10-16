@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ITEM_TYPE_ICONS } from "@/lib/item-type-icons";
+import { getItemTypeIcon } from "@/lib/item-type-icons";
 import type { DashboardCollection } from "@/types/collection";
 
 interface CollectionCardProps {
@@ -28,7 +28,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
           {collection.description && <p className="text-sm text-muted-foreground">{collection.description}</p>}
           <div className="flex gap-2">
             {collection.itemTypes.map((type) => {
-              const Icon = ITEM_TYPE_ICONS[type.icon];
+              const Icon = getItemTypeIcon(type.icon);
               return <Icon key={type.id} className="size-4" style={{ color: type.color }} />;
             })}
           </div>
