@@ -71,7 +71,7 @@ Example v4 configuration:
 
 - Tailwind CSS for all styling
 - Use shadcn/ui components where applicable
-- No inline styles
+- No inline styles, except setting a CSS variable from database data (e.g. `--type-color` via `typeColorStyle()`) that Tailwind classes then use
 - Dark mode first, light mode as option
 
 ## Database

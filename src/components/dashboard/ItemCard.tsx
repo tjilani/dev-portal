@@ -2,6 +2,7 @@ import { Pin, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getItemTypeIcon } from "@/lib/item-type-icons";
+import { typeColorStyle } from "@/lib/type-color";
 import type { DashboardItem } from "@/types/item";
 
 interface ItemCardProps {
@@ -18,10 +19,13 @@ export default function ItemCard({ item }: ItemCardProps) {
   });
 
   return (
-    <Card className="border-l-4 transition-colors hover:bg-accent/50" style={{ borderLeftColor: itemType.color }}>
+    <Card
+      className="border-l-4 border-l-(color:--type-color) transition-colors hover:bg-accent/50"
+      style={typeColorStyle(itemType.color)}
+    >
       <CardContent className="flex gap-4">
         <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted">
-          <Icon className="size-5" style={{ color: itemType.color }} />
+          <Icon className="size-5 text-(--type-color)" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">

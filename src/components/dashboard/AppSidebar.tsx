@@ -20,6 +20,7 @@ import { getSidebarCollections } from "@/lib/db/collections";
 import { getSidebarItemTypes } from "@/lib/db/items";
 import { getItemTypeIcon } from "@/lib/item-type-icons";
 import { currentUser } from "@/lib/mock-data";
+import { typeColorStyle } from "@/lib/type-color";
 
 const RECENT_COLLECTIONS_LIMIT = 5;
 const PRO_TYPE_SLUGS = ["files", "images"];
@@ -58,7 +59,7 @@ export default async function AppSidebar() {
               return (
                 <SidebarMenuItem key={type.id}>
                   <SidebarMenuButton tooltip={type.slug} render={<Link href={`/items/${type.slug}`} />}>
-                    <Icon style={{ color: type.color }} />
+                    <Icon className="text-(--type-color)" style={typeColorStyle(type.color)} />
                     <span className="capitalize">{type.slug}</span>
                     {PRO_TYPE_SLUGS.includes(type.slug) && (
                       <Badge
@@ -108,8 +109,8 @@ export default async function AppSidebar() {
                 </SidebarMenuButton>
                 <SidebarMenuBadge>
                   <span
-                    className="size-2.5 rounded-full bg-muted-foreground"
-                    style={{ backgroundColor: collection.itemTypes[0]?.color }}
+                    className="size-2.5 rounded-full bg-[var(--type-color,var(--color-muted-foreground))]"
+                    style={typeColorStyle(collection.itemTypes[0]?.color)}
                   />
                 </SidebarMenuBadge>
               </SidebarMenuItem>

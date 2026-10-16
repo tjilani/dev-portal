@@ -1,16 +1,26 @@
-# Current Feature
+# Current Feature: Type Color CSS Variable
+
+Replace inline color styles with a CSS variable and Tailwind classes.
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- goals for the current feature -->
+- Add one helper in `src/lib/` that turns a DB color into `{ "--type-color": color }` as `CSSProperties`
+- Replace the six inline color styles with the helper plus Tailwind classes (`text-(--type-color)`, `bg-(--type-color)`, `border-l-(--type-color)`):
+  - `AppSidebar.tsx`: item type icon, recent collection dot
+  - `CollectionCard.tsx`: card left border, type icons
+  - `ItemCard.tsx`: card left border, type icon
+- Add an exception to "No inline styles" in `context/coding-standards.md`: setting a CSS variable from database data is allowed
 
 ## Notes
 
-<!-- additional context, constraints, or details from spec -->
+- Source: @audit/audit-2026-10-15.md (Low: Inline styles for type colors)
+- Colors come from the DB (`ItemType.color`), so they can't be static Tailwind classes; this also works for future custom types
+- Keep fallbacks: recent collection dot stays `bg-muted-foreground` and the collection card border stays default when a collection has no items
+- No visual changes
 
 ## History
 

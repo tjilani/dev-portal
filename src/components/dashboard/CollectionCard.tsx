@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getItemTypeIcon } from "@/lib/item-type-icons";
+import { typeColorStyle } from "@/lib/type-color";
 import type { DashboardCollection } from "@/types/collection";
 
 interface CollectionCardProps {
@@ -14,8 +15,8 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
   return (
     <Link href={`/collections/${collection.id}`}>
       <Card
-        className="h-full border-l-4 transition-colors hover:bg-accent/50"
-        style={{ borderLeftColor: accentColor }}
+        className="h-full border-l-4 border-l-[color:var(--type-color,var(--color-border))] transition-colors hover:bg-accent/50"
+        style={typeColorStyle(accentColor)}
       >
         <CardContent className="flex flex-col gap-3">
           <div>
@@ -29,7 +30,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
           <div className="flex gap-2">
             {collection.itemTypes.map((type) => {
               const Icon = getItemTypeIcon(type.icon);
-              return <Icon key={type.id} className="size-4" style={{ color: type.color }} />;
+              return <Icon key={type.id} className="size-4 text-(--type-color)" style={typeColorStyle(type.color)} />;
             })}
           </div>
         </CardContent>
