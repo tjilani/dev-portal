@@ -1,23 +1,16 @@
-# Current Feature: System Item Type Unique Slug
-
-Prevent duplicate system item types with the same slug.
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Add a partial unique index on `ItemType.slug` for system types (`userId IS NULL`)
-- Declare it in `prisma/schema.prisma` (preview feature `partialIndexes`) so later migrations don't drop it
-- Create and apply the change as a migration (`prisma migrate dev`), never `db push`
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Source: @audit/audit-2026-10-15.md (Medium: `@@unique([userId, slug])` does not stop duplicate system item types)
-- PostgreSQL treats NULLs as distinct in unique indexes, so `[userId, slug]` allows two system types with the same slug
-- Dev DB checked before the migration: each system slug exists exactly once
-- Keep the existing `@@unique([userId, slug])` for user-owned custom types
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -33,3 +26,4 @@ In Progress
 - 2026-10-06: Stats & sidebar completed - sidebar item types and favorite/recent collections loaded from Neon, colored circles for recents, "View all collections" link; user area stays on mock data
 - 2026-10-08: Pro badge in sidebar completed - subtle outline PRO badge (shadcn Badge) on Files and Images item types, hidden when sidebar is collapsed
 - 2026-10-16: Audit quick wins completed - icon fallback helper, removed duplicate limit defaults, minimal favorites select sorted by name, .editorconfig
+- 2026-10-16: System item type unique slug completed - partial unique index on ItemType.slug where userId IS NULL (preview feature partialIndexes), migration applied to dev branch
