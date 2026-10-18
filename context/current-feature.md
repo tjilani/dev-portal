@@ -1,29 +1,16 @@
-# Current Feature: Auth Phase 1 - NextAuth + GitHub Provider
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Install NextAuth v5 (`next-auth@beta`) and `@auth/prisma-adapter`
-- Split auth config for edge compatibility: `src/auth.config.ts` (providers only) and `src/auth.ts` (Prisma adapter + JWT strategy)
-- GitHub OAuth provider
-- `src/app/api/auth/[...nextauth]/route.ts` exports handlers from `auth.ts`
-- `src/proxy.ts` protects `/dashboard/*` and redirects unauthenticated users to sign-in
-- `src/types/next-auth.d.ts` extends Session type with `user.id`
-- `/dashboard` redirects to sign-in, GitHub sign-in returns to `/dashboard`
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Spec: `context/features/auth-phase-1-spec.md`
-- Use Context7 to verify newest NextAuth v5 config and conventions
-- Use `next-auth@beta`, not `@latest` (installs v4)
-- Proxy file at `src/proxy.ts` (same level as `app/`), named export: `export const proxy = auth(...)`
-- `session: { strategy: 'jwt' }` with split config pattern
-- No custom `pages.signIn` - use NextAuth's default page
-- Env vars: `AUTH_SECRET`, `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`
-- References: https://authjs.dev/getting-started/installation#edge-compatibility, https://authjs.dev/getting-started/adapters/prisma
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -41,3 +28,4 @@ In Progress
 - 2026-10-16: Audit quick wins completed - icon fallback helper, removed duplicate limit defaults, minimal favorites select sorted by name, .editorconfig
 - 2026-10-16: System item type unique slug completed - partial unique index on ItemType.slug where userId IS NULL (preview feature partialIndexes), migration applied to dev branch
 - 2026-10-16: Type color CSS variable completed - typeColorStyle() sets --type-color, Tailwind classes replace six inline color styles, var() fallbacks for empty collections, coding-standards exception added
+- 2026-10-18: Auth Phase 1 completed - NextAuth v5 beta with GitHub provider, split edge-safe config with Prisma adapter and JWT sessions, src/proxy.ts protects /dashboard/* via authorized callback, Session type extended with user.id
