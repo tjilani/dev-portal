@@ -1,25 +1,16 @@
-# Current Feature: Auth Phase 3 - Sign In, Register & Sign Out UI
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Custom `/sign-in` page: email + password fields, "Sign in with GitHub" button, link to register, validation and error display
-- Custom `/register` page: name, email, password, confirm password; validates match + email format; submits to `/api/auth/register`; redirects to sign-in on success
-- NextAuth uses the custom pages instead of its defaults
-- Sidebar bottom shows the signed-in user's avatar and name (replacing mock user data)
-- Reusable avatar component: GitHub `image` if present, otherwise initials from name ("Brad Traversy" → "BT")
-- Clicking the sidebar user area opens a dropdown with "Profile" (links to `/profile`) and "Sign out"; sign out logs out and redirects
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Spec: `context/features/auth-phase-3-spec.md`
-- shadcn `avatar` already installed; dropdown menu component is not
-- Reuse `registerSchema` / `signInSchema` from `src/lib/auth-schemas.ts`
-- Decided: avatar in sidebar bottom only (spec Testing step 4 "top bar" is outdated)
-- Decided: single dropdown with Profile + Sign out; `/profile` 404s until a profile feature is built
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -39,3 +30,4 @@ In Progress
 - 2026-10-16: Type color CSS variable completed - typeColorStyle() sets --type-color, Tailwind classes replace six inline color styles, var() fallbacks for empty collections, coding-standards exception added
 - 2026-10-18: Auth Phase 1 completed - NextAuth v5 beta with GitHub provider, split edge-safe config with Prisma adapter and JWT sessions, src/proxy.ts protects /dashboard/* via authorized callback, Session type extended with user.id
 - 2026-10-19: Auth Phase 2 completed - Credentials provider with placeholder in auth.config.ts and bcrypt validation in auth.ts, Zod schemas in src/lib/auth-schemas.ts, POST /api/auth/register with duplicate/mismatch/length validation, GitHub OAuth unchanged
+- 2026-10-19: Auth Phase 3 completed - custom /sign-in (useActionState server action, GitHub button) and /register (client Zod validation, redirect with success notice) pages, NextAuth pages.signIn, sidebar NavUser dropdown with Profile + Sign out, UserAvatar with GitHub image or initials, mock currentUser removed, .playwright-mcp gitignored
