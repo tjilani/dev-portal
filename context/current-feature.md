@@ -1,16 +1,27 @@
-# Current Feature
+# Current Feature: Auth Phase 2 - Email/Password Credentials Provider
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- goals for the current feature -->
+- Credentials provider for email/password sign-in, hashed with bcryptjs (already installed)
+- `User.password` field exists (already added by the seed-data migration - no new migration needed)
+- `auth.config.ts`: Credentials provider placeholder with `authorize: () => null` (edge-safe)
+- `auth.ts`: override Credentials provider with real bcrypt validation
+- `POST /api/auth/register`: accepts name, email, password, confirmPassword; validates passwords match, rejects existing users, hashes password, creates user, returns success/error
+- Sign-in with email/password at `/api/auth/signin` redirects to `/dashboard`
+- GitHub OAuth still works
 
 ## Notes
 
-<!-- additional context, constraints, or details from spec -->
+- Spec: `context/features/auth-phase-2-spec.md`
+- Split pattern: placeholder in `auth.config.ts` keeps bcrypt/Prisma out of the proxy; `auth.ts` replaces it
+- Credentials provider requires JWT sessions - already set in Phase 1
+- Coding standards require Zod for input validation - Zod is not installed yet
+- Test registration via curl: `POST /api/auth/register` with JSON `{"name","email","password","confirmPassword"}`
+- Reference: https://authjs.dev/getting-started/authentication/credentials
 
 ## History
 
