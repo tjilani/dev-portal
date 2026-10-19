@@ -1,27 +1,16 @@
-# Current Feature: Auth Phase 2 - Email/Password Credentials Provider
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Credentials provider for email/password sign-in, hashed with bcryptjs (already installed)
-- `User.password` field exists (already added by the seed-data migration - no new migration needed)
-- `auth.config.ts`: Credentials provider placeholder with `authorize: () => null` (edge-safe)
-- `auth.ts`: override Credentials provider with real bcrypt validation
-- `POST /api/auth/register`: accepts name, email, password, confirmPassword; validates passwords match, rejects existing users, hashes password, creates user, returns success/error
-- Sign-in with email/password at `/api/auth/signin` redirects to `/dashboard`
-- GitHub OAuth still works
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Spec: `context/features/auth-phase-2-spec.md`
-- Split pattern: placeholder in `auth.config.ts` keeps bcrypt/Prisma out of the proxy; `auth.ts` replaces it
-- Credentials provider requires JWT sessions - already set in Phase 1
-- Coding standards require Zod for input validation - Zod is not installed yet
-- Test registration via curl: `POST /api/auth/register` with JSON `{"name","email","password","confirmPassword"}`
-- Reference: https://authjs.dev/getting-started/authentication/credentials
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -40,3 +29,4 @@ In Progress
 - 2026-10-16: System item type unique slug completed - partial unique index on ItemType.slug where userId IS NULL (preview feature partialIndexes), migration applied to dev branch
 - 2026-10-16: Type color CSS variable completed - typeColorStyle() sets --type-color, Tailwind classes replace six inline color styles, var() fallbacks for empty collections, coding-standards exception added
 - 2026-10-18: Auth Phase 1 completed - NextAuth v5 beta with GitHub provider, split edge-safe config with Prisma adapter and JWT sessions, src/proxy.ts protects /dashboard/* via authorized callback, Session type extended with user.id
+- 2026-10-19: Auth Phase 2 completed - Credentials provider with placeholder in auth.config.ts and bcrypt validation in auth.ts, Zod schemas in src/lib/auth-schemas.ts, POST /api/auth/register with duplicate/mismatch/length validation, GitHub OAuth unchanged
