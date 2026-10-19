@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { signInWithGitHub } from "@/actions/auth";
 
 export default async function SignInPage({ searchParams }: PageProps<"/sign-in">) {
-  const { callbackUrl, error, registered } = await searchParams;
+  const { callbackUrl, error } = await searchParams;
   const redirectTo = typeof callbackUrl === "string" ? callbackUrl : "/dashboard";
 
   return (
@@ -16,9 +16,6 @@ export default async function SignInPage({ searchParams }: PageProps<"/sign-in">
         <CardDescription>Welcome back to Dev Master View</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {registered && (
-          <p className="text-sm text-emerald-500">Account created. Please sign in.</p>
-        )}
         {error && <p className="text-sm text-destructive">Sign in failed. Please try again.</p>}
 
         <SignInForm callbackUrl={redirectTo} />

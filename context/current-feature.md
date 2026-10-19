@@ -2,9 +2,15 @@
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
+
+Registration success toast
+
+- Add shadcn/ui Sonner component and mount `<Toaster />` in the root layout
+- Show a success toast after registration telling the user they can now sign in
+- Replace the inline "Account created" message and `?registered=1` query param on /sign-in
 
 <!-- goals for the current feature -->
 

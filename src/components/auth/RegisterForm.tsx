@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,7 +48,8 @@ export default function RegisterForm() {
         setError(result.error);
         return;
       }
-      router.push("/sign-in?registered=1");
+      toast.success("Account created. You can now sign in.");
+      router.push("/sign-in");
     } catch {
       setError("Registration failed. Please try again.");
     } finally {
