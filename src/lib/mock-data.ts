@@ -1,11 +1,3 @@
-export interface MockUser {
-  id: string;
-  name: string;
-  email: string;
-  image: string | null;
-  isPro: boolean;
-}
-
 export interface MockItemType {
   id: string;
   name: string;
@@ -41,14 +33,6 @@ export interface MockItem {
   createdAt: string;
   updatedAt: string;
 }
-
-export const currentUser: MockUser = {
-  id: "user_1",
-  name: "John Doe",
-  email: "john@example.com",
-  image: null,
-  isPro: false,
-};
 
 export const itemTypes: MockItemType[] = [
   { id: "type_snippet", name: "Snippets", slug: "snippets", icon: "Code", color: "#3b82f6", isSystem: true, count: 4 },

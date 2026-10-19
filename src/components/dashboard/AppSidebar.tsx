@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Folder, FolderOpen, Layers, Settings, Star } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Folder, FolderOpen, Layers, Star } from "lucide-react";
+import { auth } from "@/auth";
+import NavUser from "@/components/auth/NavUser";
 import { Badge } from "@/components/ui/badge";
 import {
   Sidebar,
@@ -19,21 +20,17 @@ import {
 import { getSidebarCollections } from "@/lib/db/collections";
 import { getSidebarItemTypes } from "@/lib/db/items";
 import { getItemTypeIcon } from "@/lib/item-type-icons";
-import { currentUser } from "@/lib/mock-data";
 import { typeColorStyle } from "@/lib/type-color";
 
 const RECENT_COLLECTIONS_LIMIT = 5;
 const PRO_TYPE_SLUGS = ["files", "images"];
 
 export default async function AppSidebar() {
-  const [itemTypes, { favorites, recent }] = await Promise.all([
+  const [session, itemTypes, { favorites, recent }] = await Promise.all([
+    auth(),
     getSidebarItemTypes(),
     getSidebarCollections(RECENT_COLLECTIONS_LIMIT),
   ]);
-  const initials = currentUser.name
-    .split(" ")
-    .map((part) => part[0])
-    .join("");
 
   return (
     <Sidebar collapsible="icon">
@@ -129,23 +126,7 @@ export default async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" tooltip="Settings" render={<Link href="/settings" />}>
-              <Avatar>
-                {currentUser.image && <AvatarImage src={currentUser.image} alt={currentUser.name} />}
-                <AvatarFallback>{initials}</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left leading-tight">
-                <span className="truncate text-sm font-medium">{currentUser.name}</span>
-                <span className="truncate text-xs text-muted-foreground">{currentUser.email}</span>
-              </div>
-              <Settings className="ml-auto" />
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+      <SidebarFooter>{session?.user && <NavUser user={session.user} />}</SidebarFooter>
 
       <SidebarRail />
     </Sidebar>
