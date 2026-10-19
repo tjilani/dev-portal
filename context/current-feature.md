@@ -2,15 +2,9 @@
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
-
-Registration success toast
-
-- Add shadcn/ui Sonner component and mount `<Toaster />` in the root layout
-- Show a success toast after registration telling the user they can now sign in
-- Replace the inline "Account created" message and `?registered=1` query param on /sign-in
 
 <!-- goals for the current feature -->
 
@@ -37,3 +31,4 @@ Registration success toast
 - 2026-10-18: Auth Phase 1 completed - NextAuth v5 beta with GitHub provider, split edge-safe config with Prisma adapter and JWT sessions, src/proxy.ts protects /dashboard/* via authorized callback, Session type extended with user.id
 - 2026-10-19: Auth Phase 2 completed - Credentials provider with placeholder in auth.config.ts and bcrypt validation in auth.ts, Zod schemas in src/lib/auth-schemas.ts, POST /api/auth/register with duplicate/mismatch/length validation, GitHub OAuth unchanged
 - 2026-10-19: Auth Phase 3 completed - custom /sign-in (useActionState server action, GitHub button) and /register (client Zod validation, redirect with success notice) pages, NextAuth pages.signIn, sidebar NavUser dropdown with Profile + Sign out, UserAvatar with GitHub image or initials, mock currentUser removed, .playwright-mcp gitignored
+- 2026-10-19: Registration toast completed - shadcn Sonner Toaster (dark theme) in root layout, success toast after registration, inline sign-in notice and ?registered=1 param removed
