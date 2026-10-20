@@ -48,7 +48,7 @@ export default function RegisterForm() {
         setError(result.error);
         return;
       }
-      toast.success("Account created. You can now sign in.");
+      toast.success("Account created. Check your email to verify your account.");
       router.push("/sign-in");
     } catch {
       setError("Registration failed. Please try again.");

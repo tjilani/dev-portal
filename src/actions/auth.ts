@@ -1,7 +1,7 @@
 "use server";
 
-import { AuthError } from "next-auth";
-import { signIn, signOut } from "@/auth";
+import { AuthError, CredentialsSignin } from "next-auth";
+import { EMAIL_NOT_VERIFIED, signIn, signOut } from "@/auth";
 import { signInSchema } from "@/lib/auth-schemas";
 import type { SignInState } from "@/types/auth";
 
@@ -25,6 +25,9 @@ export async function signInWithCredentials(
     await signIn("credentials", { ...parsed.data, redirectTo: getRedirectTo(formData) });
     return { success: true };
   } catch (error) {
+    if (error instanceof CredentialsSignin && error.code === EMAIL_NOT_VERIFIED) {
+      return { success: false, data: { email }, error: "Please verify your email before signing in" };
+    }
     if (error instanceof AuthError) {
       return { success: false, data: { email }, error: "Invalid email or password" };
     }

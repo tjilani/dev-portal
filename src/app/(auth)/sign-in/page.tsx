@@ -1,12 +1,13 @@
 import Link from "next/link";
 import SignInForm from "@/components/auth/SignInForm";
+import VerificationToast from "@/components/auth/VerificationToast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { signInWithGitHub } from "@/actions/auth";
 
 export default async function SignInPage({ searchParams }: PageProps<"/sign-in">) {
-  const { callbackUrl, error } = await searchParams;
+  const { callbackUrl, error, verified } = await searchParams;
   const redirectTo = typeof callbackUrl === "string" ? callbackUrl : "/dashboard";
 
   return (
@@ -16,6 +17,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/sign-in">
         <CardDescription>Welcome back to Dev Master View</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
+        {verified && <VerificationToast success={verified === "success"} />}
         {error && <p className="text-sm text-destructive">Sign in failed. Please try again.</p>}
 
         <SignInForm callbackUrl={redirectTo} />

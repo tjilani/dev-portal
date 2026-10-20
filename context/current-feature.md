@@ -1,16 +1,26 @@
-# Current Feature
+# Current Feature: Email Verification on Register
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- goals for the current feature -->
+- Install `resend` and add a small email helper in `src/lib/` that reads `RESEND_API_KEY`
+- On successful registration, create a random token in the existing `VerificationToken` table (identifier = email, 24h expiry) and send a verification email with a link
+- Add a verification route that validates the token, sets `User.emailVerified`, deletes the token and redirects to /sign-in with a toast
+- Block credentials sign-in for users whose `emailVerified` is null, with a clear "verify your email" message
+- After registration, show a toast telling the user to check their email (replaces "You can now sign in")
+- Show an error for invalid or expired links
 
 ## Notes
 
-<!-- additional context, constraints, or details from spec -->
+- No schema migration needed: `User.emailVerified` and `VerificationToken` already exist (NextAuth models)
+- GitHub OAuth sign-in is unaffected; only the Credentials provider checks `emailVerified`
+- Seed demo user must have `emailVerified` set so it can still sign in
+- Build the link from the request origin, so it works locally and on Vercel
+- Sender: Resend's `onboarding@resend.dev` only delivers to the Resend account owner's email until a domain is verified
+- `RESEND_API_KEY` must also be added to Vercel (as Sensitive) before deploying
 
 ## History
 
