@@ -10,6 +10,11 @@ npm run dev
 
 Open http://localhost:3000.
 
+## Environment
+
+- `EMAIL_VERIFICATION_ENABLED` — set to `false` to skip email verification on register and sign-in (default: enabled)
+- `RESEND_API_KEY` — required while email verification is enabled
+
 ## Scripts
 
 - `npm run dev` — start the dev server

@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { AuthError, CredentialsSignin } from "next-auth";
 import { EMAIL_NOT_VERIFIED, signIn, signOut } from "@/auth";
 import { signInSchema } from "@/lib/auth-schemas";
+import { EMAIL_VERIFICATION_ENABLED } from "@/lib/config";
 import { isInResendCooldown } from "@/lib/db/verification-tokens";
 import { prisma } from "@/lib/prisma";
 import { sendVerification } from "@/lib/verification";
@@ -44,6 +45,8 @@ export async function signInWithCredentials(
 }
 
 export async function resendVerificationEmail(email: string): Promise<ResendVerificationResult> {
+  if (!EMAIL_VERIFICATION_ENABLED) return { success: true };
+
   const parsed = signInSchema.shape.email.safeParse(email);
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message };
 

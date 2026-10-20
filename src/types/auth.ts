@@ -6,7 +6,13 @@ export interface SignInState {
 
 export interface RegisterResponse {
   success: boolean;
-  data?: { id: string; name: string | null; email: string | null; emailSent: boolean };
+  data?: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    verificationRequired: boolean;
+    emailSent: boolean;
+  };
   error?: string;
 }
 

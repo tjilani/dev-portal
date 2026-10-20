@@ -49,7 +49,9 @@ export default function RegisterForm() {
         setError(result.error);
         return;
       }
-      if (result.data?.emailSent) {
+      if (!result.data?.verificationRequired) {
+        toast.success("Account created. You can now sign in.");
+      } else if (result.data.emailSent) {
         toast.success("Account created. Check your email to verify your account.");
       } else {
         toast.warning(

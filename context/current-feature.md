@@ -1,16 +1,27 @@
-# Current Feature
+# Current Feature: Email Verification Toggle
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- goals for the current feature -->
+- Add a server-only env variable `EMAIL_VERIFICATION_ENABLED`, read in one place (e.g. `src/lib/config.ts`) as a boolean constant
+- Default is enabled; only the exact value `"false"` disables verification
+- When disabled, registration skips token creation and email sending
+- When disabled, credentials sign-in skips the `emailVerified` check
+- Register response tells the form whether verification is required; the toast says "You can now sign in" when it isn't
+- The Resend client is created lazily, so a missing `RESEND_API_KEY` doesn't break the app while verification is disabled
+- Document the variable in `.env.example` (or README if no example file exists)
 
 ## Notes
 
-<!-- additional context, constraints, or details from spec -->
+- Why an env variable: one flag per environment (local vs Vercel), no migration or admin UI; changing it on Vercel needs a redeploy
+- Alternatives considered: DB settings row (runtime toggle, but needs migration + admin UI), Vercel Edge Config / Flags SDK (no redeploy, but an extra service) - both too much for now
+- Server-only (no `NEXT_PUBLIC_` prefix): every check runs on the server
+- Default enabled = fail-safe: a missing or mistyped variable keeps verification on rather than silently turning it off
+- Users registered while disabled keep `emailVerified = null`; if verification is enabled later they can verify via the existing resend button
+- Resend verify route and resend button stay as they are; the button only appears when sign-in returns `needsVerification`, which can't happen while disabled
 
 ## History
 

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/lib/auth-schemas";
+import { EMAIL_VERIFICATION_ENABLED } from "@/lib/config";
 import { sendVerification } from "@/lib/verification";
 
 export async function POST(request: Request) {
@@ -28,12 +29,20 @@ export async function POST(request: Request) {
       select: { id: true, name: true, email: true },
     });
 
-    const emailSent = await sendVerification(email, request.url).then(
-      () => true,
-      () => false,
-    );
+    const emailSent =
+      EMAIL_VERIFICATION_ENABLED &&
+      (await sendVerification(email, request.url).then(
+        () => true,
+        () => false,
+      ));
 
-    return Response.json({ success: true, data: { ...user, emailSent } }, { status: 201 });
+    return Response.json(
+      {
+        success: true,
+        data: { ...user, verificationRequired: EMAIL_VERIFICATION_ENABLED, emailSent },
+      },
+      { status: 201 },
+    );
   } catch {
     return Response.json({ success: false, error: "Registration failed" }, { status: 500 });
   }
