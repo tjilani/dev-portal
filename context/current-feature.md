@@ -1,26 +1,16 @@
-# Current Feature: Resend Verification Email
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Register route no longer deletes the user when the email fails to send; it returns success with `emailSent: false`
-- RegisterForm shows a warning toast when `emailSent` is false, pointing the user to resend from the sign-in page
-- Add a `resendVerificationEmail` server action that deletes the user's old tokens, creates a new one and sends a new email
-- Show a "Resend verification email" button on the sign-in form when the "Please verify your email" error appears
-- Resend only acts for existing, unverified users and responds with a generic message, so it doesn't reveal which emails are registered
-- Basic cooldown: refuse a resend if the latest token for that email was created less than 60 seconds ago
-- Share the "create token + send email" logic between register and resend instead of duplicating it
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Only one valid link per user: deleting old tokens before creating a new one invalidates earlier emails
-- `VerificationToken` has no `createdAt`; the cooldown can be derived from `expires - 24h`, so no migration is needed
-- Server actions have no `request`, so the resend link's origin comes from the request headers (`next/headers`)
-- Flow for expired links: link shows "invalid or expired" toast → user signs in → gets "verify your email" error → clicks resend
-- Not included: re-registering with an unverified email still returns 409 (the sign-in resend button covers that case)
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -43,3 +33,4 @@ In Progress
 - 2026-10-19: Auth Phase 3 completed - custom /sign-in (useActionState server action, GitHub button) and /register (client Zod validation, redirect with success notice) pages, NextAuth pages.signIn, sidebar NavUser dropdown with Profile + Sign out, UserAvatar with GitHub image or initials, mock currentUser removed, .playwright-mcp gitignored
 - 2026-10-19: Registration toast completed - shadcn Sonner Toaster (dark theme) in root layout, success toast after registration, inline sign-in notice and ?registered=1 param removed
 - 2026-10-20: Email verification completed - Resend helper in src/lib/email.ts, 24h tokens in VerificationToken via src/lib/db/verification-tokens.ts, GET /api/auth/verify-email sets emailVerified and redirects with toast, unverified credentials sign-in blocked via custom CredentialsSignin code, register rolls back user + token if sending fails (switch to keep-user when "resend" is added)
+- 2026-10-20: Resend verification email completed - register keeps the user and returns emailSent (warning toast on failure), shared sendVerification() in src/lib/verification.ts, new tokens replace old ones, resendVerificationEmail server action with 60s cooldown derived from token expiry, ResendVerificationButton on sign-in form when needsVerification
