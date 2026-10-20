@@ -1,26 +1,16 @@
-# Current Feature: Email Verification on Register
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Install `resend` and add a small email helper in `src/lib/` that reads `RESEND_API_KEY`
-- On successful registration, create a random token in the existing `VerificationToken` table (identifier = email, 24h expiry) and send a verification email with a link
-- Add a verification route that validates the token, sets `User.emailVerified`, deletes the token and redirects to /sign-in with a toast
-- Block credentials sign-in for users whose `emailVerified` is null, with a clear "verify your email" message
-- After registration, show a toast telling the user to check their email (replaces "You can now sign in")
-- Show an error for invalid or expired links
+<!-- goals for the current feature -->
 
 ## Notes
 
-- No schema migration needed: `User.emailVerified` and `VerificationToken` already exist (NextAuth models)
-- GitHub OAuth sign-in is unaffected; only the Credentials provider checks `emailVerified`
-- Seed demo user must have `emailVerified` set so it can still sign in
-- Build the link from the request origin, so it works locally and on Vercel
-- Sender: Resend's `onboarding@resend.dev` only delivers to the Resend account owner's email until a domain is verified
-- `RESEND_API_KEY` must also be added to Vercel (as Sensitive) before deploying
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -42,3 +32,4 @@ In Progress
 - 2026-10-19: Auth Phase 2 completed - Credentials provider with placeholder in auth.config.ts and bcrypt validation in auth.ts, Zod schemas in src/lib/auth-schemas.ts, POST /api/auth/register with duplicate/mismatch/length validation, GitHub OAuth unchanged
 - 2026-10-19: Auth Phase 3 completed - custom /sign-in (useActionState server action, GitHub button) and /register (client Zod validation, redirect with success notice) pages, NextAuth pages.signIn, sidebar NavUser dropdown with Profile + Sign out, UserAvatar with GitHub image or initials, mock currentUser removed, .playwright-mcp gitignored
 - 2026-10-19: Registration toast completed - shadcn Sonner Toaster (dark theme) in root layout, success toast after registration, inline sign-in notice and ?registered=1 param removed
+- 2026-10-20: Email verification completed - Resend helper in src/lib/email.ts, 24h tokens in VerificationToken via src/lib/db/verification-tokens.ts, GET /api/auth/verify-email sets emailVerified and redirects with toast, unverified credentials sign-in blocked via custom CredentialsSignin code, register rolls back user + token if sending fails (switch to keep-user when "resend" is added)
