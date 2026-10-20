@@ -21,6 +21,22 @@ export interface ResendVerificationResult {
   error?: string;
 }
 
+export interface ForgotPasswordState {
+  success: boolean;
+  data?: { email: string };
+  error?: string;
+}
+
+export interface ResetPasswordState {
+  success: boolean;
+  error?: string;
+}
+
+export interface AuthNotice {
+  type: "success" | "error";
+  message: string;
+}
+
 export interface SessionUser {
   name?: string | null;
   email?: string | null;

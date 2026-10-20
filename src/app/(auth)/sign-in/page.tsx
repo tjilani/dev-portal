@@ -1,14 +1,23 @@
 import Link from "next/link";
 import SignInForm from "@/components/auth/SignInForm";
-import VerificationToast from "@/components/auth/VerificationToast";
+import AuthToast from "@/components/auth/AuthToast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { signInWithGitHub } from "@/actions/auth";
+import type { AuthNotice } from "@/types/auth";
+
+function getNotice(verified: unknown, reset: unknown): AuthNotice | null {
+  if (verified === "success") return { type: "success", message: "Email verified. You can now sign in." };
+  if (verified) return { type: "error", message: "This verification link is invalid or has expired." };
+  if (reset === "success") return { type: "success", message: "Password updated. You can now sign in." };
+  return null;
+}
 
 export default async function SignInPage({ searchParams }: PageProps<"/sign-in">) {
-  const { callbackUrl, error, verified } = await searchParams;
+  const { callbackUrl, error, verified, reset } = await searchParams;
   const redirectTo = typeof callbackUrl === "string" ? callbackUrl : "/dashboard";
+  const notice = getNotice(verified, reset);
 
   return (
     <Card>
@@ -17,7 +26,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/sign-in">
         <CardDescription>Welcome back to Dev Master View</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {verified && <VerificationToast success={verified === "success"} />}
+        {notice && <AuthToast {...notice} />}
         {error && <p className="text-sm text-destructive">Sign in failed. Please try again.</p>}
 
         <SignInForm callbackUrl={redirectTo} />
