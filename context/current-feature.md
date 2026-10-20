@@ -1,16 +1,26 @@
-# Current Feature
+# Current Feature: Resend Verification Email
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- goals for the current feature -->
+- Register route no longer deletes the user when the email fails to send; it returns success with `emailSent: false`
+- RegisterForm shows a warning toast when `emailSent` is false, pointing the user to resend from the sign-in page
+- Add a `resendVerificationEmail` server action that deletes the user's old tokens, creates a new one and sends a new email
+- Show a "Resend verification email" button on the sign-in form when the "Please verify your email" error appears
+- Resend only acts for existing, unverified users and responds with a generic message, so it doesn't reveal which emails are registered
+- Basic cooldown: refuse a resend if the latest token for that email was created less than 60 seconds ago
+- Share the "create token + send email" logic between register and resend instead of duplicating it
 
 ## Notes
 
-<!-- additional context, constraints, or details from spec -->
+- Only one valid link per user: deleting old tokens before creating a new one invalidates earlier emails
+- `VerificationToken` has no `createdAt`; the cooldown can be derived from `expires - 24h`, so no migration is needed
+- Server actions have no `request`, so the resend link's origin comes from the request headers (`next/headers`)
+- Flow for expired links: link shows "invalid or expired" toast → user signs in → gets "verify your email" error → clicks resend
+- Not included: re-registering with an unverified email still returns 409 (the sign-in resend button covers that case)
 
 ## History
 

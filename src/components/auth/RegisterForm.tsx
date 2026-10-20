@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { registerSchema } from "@/lib/auth-schemas";
+import type { RegisterResponse } from "@/types/auth";
 
 type FieldName = "name" | "email" | "password" | "confirmPassword";
 type FieldErrors = Partial<Record<FieldName, string[]>>;
@@ -43,12 +44,18 @@ export default function RegisterForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),
       });
-      const result: { success: boolean; error?: string } = await response.json();
+      const result: RegisterResponse = await response.json();
       if (!result.success) {
         setError(result.error);
         return;
       }
-      toast.success("Account created. Check your email to verify your account.");
+      if (result.data?.emailSent) {
+        toast.success("Account created. Check your email to verify your account.");
+      } else {
+        toast.warning(
+          "Account created, but we couldn't send the verification email. Sign in to request a new one.",
+        );
+      }
       router.push("/sign-in");
     } catch {
       setError("Registration failed. Please try again.");

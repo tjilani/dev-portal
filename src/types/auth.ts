@@ -1,6 +1,17 @@
 export interface SignInState {
   success: boolean;
-  data?: { email: string };
+  data?: { email: string; needsVerification?: boolean };
+  error?: string;
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  data?: { id: string; name: string | null; email: string | null; emailSent: boolean };
+  error?: string;
+}
+
+export interface ResendVerificationResult {
+  success: boolean;
   error?: string;
 }
 

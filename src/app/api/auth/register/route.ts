@@ -1,8 +1,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/lib/auth-schemas";
-import { createVerificationToken } from "@/lib/db/verification-tokens";
-import { sendVerificationEmail } from "@/lib/email";
+import { sendVerification } from "@/lib/verification";
 
 export async function POST(request: Request) {
   const parsed = registerSchema.safeParse(await request.json().catch(() => null));
@@ -29,26 +28,12 @@ export async function POST(request: Request) {
       select: { id: true, name: true, email: true },
     });
 
-    const token = await createVerificationToken(email);
-    const verifyUrl = new URL(`/api/auth/verify-email?token=${token}`, request.url).toString();
+    const emailSent = await sendVerification(email, request.url).then(
+      () => true,
+      () => false,
+    );
 
-    try {
-      await sendVerificationEmail(email, verifyUrl);
-    } catch {
-      await prisma.$transaction([
-        prisma.verificationToken.delete({
-          where: { identifier_token: { identifier: email, token } },
-        }),
-        prisma.user.delete({ where: { id: user.id } }),
-      ]);
-
-      return Response.json(
-        { success: false, error: "Verification email could not be sent. Please try again." },
-        { status: 502 },
-      );
-    }
-
-    return Response.json({ success: true, data: user }, { status: 201 });
+    return Response.json({ success: true, data: { ...user, emailSent } }, { status: 201 });
   } catch {
     return Response.json({ success: false, error: "Registration failed" }, { status: 500 });
   }
