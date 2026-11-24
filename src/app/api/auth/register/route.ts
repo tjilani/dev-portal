@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
     const emailSent =
       EMAIL_VERIFICATION_ENABLED &&
-      (await sendVerification(email, request.url).then(
+      (await sendVerification(email).then(
         () => true,
         () => false,
       ));

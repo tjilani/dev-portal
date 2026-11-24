@@ -1,6 +1,5 @@
 "use server";
 
-import { headers } from "next/headers";
 import { AuthError, CredentialsSignin } from "next-auth";
 import { EMAIL_NOT_VERIFIED, signIn, signOut } from "@/auth";
 import { signInSchema } from "@/lib/auth-schemas";
@@ -55,14 +54,12 @@ export async function resendVerificationEmail(email: string): Promise<ResendVeri
       where: { email: parsed.data },
       select: { emailVerified: true },
     });
-    const origin = (await headers()).get("origin") ?? "";
-
     if (!user || user.emailVerified) return { success: true };
     if (await isInResendCooldown(parsed.data)) {
       return { success: false, error: "Please wait before requesting another verification email." };
     }
 
-    await sendVerification(parsed.data, origin);
+    await sendVerification(parsed.data);
 
     return { success: true };
   } catch {

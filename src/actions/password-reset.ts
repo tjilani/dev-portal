@@ -1,7 +1,6 @@
 "use server";
 
 import bcrypt from "bcryptjs";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { forgotPasswordSchema, resetPasswordSchema } from "@/lib/auth-schemas";
 import {
@@ -36,8 +35,7 @@ export async function requestPasswordReset(
       user?.password &&
       !(await isInPasswordResetCooldown(parsed.data.email))
     ) {
-      const origin = (await headers()).get("origin") ?? "";
-      await sendPasswordReset(parsed.data.email, origin);
+      await sendPasswordReset(parsed.data.email);
     }
 
     return { success: true, data: { email } };

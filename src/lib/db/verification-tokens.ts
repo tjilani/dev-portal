@@ -40,7 +40,7 @@ async function findValidPasswordResetToken(token: string) {
 
 export async function createVerificationToken(email: string) {
   const token = randomBytes(32).toString("hex");
-  await replaceToken(email, token, VERIFICATION_TTL_MS);
+  await replaceToken(email, hashToken(token), VERIFICATION_TTL_MS);
   return token;
 }
 
@@ -49,7 +49,9 @@ export function isInResendCooldown(email: string) {
 }
 
 export async function verifyEmailToken(token: string) {
-  const record = await prisma.verificationToken.findFirst({ where: { token } });
+  const record = await prisma.verificationToken.findFirst({
+    where: { token: hashToken(token), NOT: { identifier: { startsWith: PASSWORD_RESET_PREFIX } } },
+  });
   if (!record || record.expires < new Date()) return false;
 
   await prisma.$transaction([
@@ -58,7 +60,7 @@ export async function verifyEmailToken(token: string) {
       data: { emailVerified: new Date() },
     }),
     prisma.verificationToken.delete({
-      where: { identifier_token: { identifier: record.identifier, token } },
+      where: { identifier_token: { identifier: record.identifier, token: record.token } },
     }),
   ]);
   return true;

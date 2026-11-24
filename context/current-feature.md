@@ -1,16 +1,23 @@
-# Current Feature
+# Current Feature: Auth Security Fixes
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- goals for the current feature -->
+- Verification and password reset links are built from a configured `APP_URL` instead of request headers (fixes password reset poisoning)
+- Emails are trimmed and lowercased in the shared Zod email schema, so case variants map to one account and one cooldown key
+- Email verification tokens are stored as SHA-256 hashes like reset tokens; lookup excludes password-reset identifiers
 
 ## Notes
 
-<!-- additional context, constraints, or details from spec -->
+- Source: findings 1-3 of `docs/audit-results/AUTH_SECURITY_REVIEW.md` (2026-11-24)
+- Next.js keeps a client-sent `x-forwarded-host` (`??=`), and the Server Action origin check compares against it, so `headers().get("origin")` / `request.url` are attacker-controllable
+- `APP_URL` is separate from `AUTH_URL` (used internally by NextAuth); document it in README, set it in production env
+- Email normalization via `z.string().trim().toLowerCase().pipe(z.email(...))` so normalization runs before format validation; DB check: no existing users with non-lowercase emails
+- Existing plaintext verification tokens become invalid after the change; affected users can request a new one via "Resend"
+- Rate limiting, demo-user scoping and JWT revalidation (findings 4-6) are out of scope
 
 ## History
 

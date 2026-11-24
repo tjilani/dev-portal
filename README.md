@@ -12,6 +12,7 @@ Open http://localhost:3000.
 
 ## Environment
 
+- `APP_URL` — public base URL used for links in verification and password reset emails (default: `http://localhost:3000`, set it in production)
 - `EMAIL_VERIFICATION_ENABLED` — set to `false` to skip email verification on register and sign-in (default: enabled)
 - `RESEND_API_KEY` — required while email verification is enabled
 
