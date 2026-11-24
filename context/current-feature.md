@@ -1,16 +1,26 @@
-# Current Feature
+# Current Feature: Profile Page
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- goals for the current feature -->
+- Protected profile page at `/profile` (auth required)
+- User info: email, name, avatar (GitHub image or initials), account creation date
+- Usage stats: total items, total collections, breakdown per item type (snippets, prompts, notes, commands, links, files, images)
+- Change password action, shown only for email/password users (not GitHub OAuth)
+- Delete account action with a confirmation dialog
+- Follow existing patterns for data fetching (server components + `src/lib/db/*`) and components
 
 ## Notes
 
-<!-- additional context, constraints, or details from spec -->
+- Reuse existing `UserAvatar` for the GitHub image / initials fallback
+- Sidebar `NavUser` dropdown already links to `/profile`
+- `src/proxy.ts` matcher currently only covers `/dashboard/:path*` - add `/profile` so the `authorized` callback protects it
+- Mutations (change password, delete account) as Server Actions in `src/actions/` with Zod validation and `{ success, data, error }` return pattern, feedback via toast
+- Delete account: Prisma relations cascade from User (items, collections, tags, accounts); `VerificationToken` rows are keyed by email (no relation), so delete them explicitly in the same transaction; sign the user out afterwards
+- Credentials users are identified by having a `password` hash set; change password should verify the current password with bcrypt
 
 ## History
 

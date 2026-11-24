@@ -3,6 +3,7 @@ import type { SessionUser } from "@/types/auth";
 
 interface UserAvatarProps {
   user: SessionUser;
+  className?: string;
 }
 
 function getInitials(name: string | null | undefined): string {
@@ -16,9 +17,9 @@ function getInitials(name: string | null | undefined): string {
   return `${first}${last}`.toUpperCase();
 }
 
-export default function UserAvatar({ user }: UserAvatarProps) {
+export default function UserAvatar({ user, className }: UserAvatarProps) {
   return (
-    <Avatar>
+    <Avatar className={className}>
       {user.image && <AvatarImage src={user.image} alt={user.name ?? "User avatar"} />}
       <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
     </Avatar>

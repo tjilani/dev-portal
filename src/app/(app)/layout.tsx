@@ -2,7 +2,7 @@ import AppSidebar from "@/components/dashboard/AppSidebar";
 import TopBar from "@/components/dashboard/TopBar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-export default function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
+export default function AppLayout({ children }: LayoutProps<"/">) {
   return (
     <SidebarProvider>
       <AppSidebar />

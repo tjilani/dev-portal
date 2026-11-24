@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 const VERIFICATION_TTL_MS = 24 * 60 * 60 * 1000;
 const PASSWORD_RESET_TTL_MS = 60 * 60 * 1000;
 const RESEND_COOLDOWN_MS = 60 * 1000;
-const PASSWORD_RESET_PREFIX = "password-reset:";
+export const PASSWORD_RESET_PREFIX = "password-reset:";
 
 function hashToken(token: string) {
   return createHash("sha256").update(token).digest("hex");
