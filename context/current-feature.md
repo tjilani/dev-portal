@@ -1,26 +1,16 @@
-# Current Feature: Profile Page
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Protected profile page at `/profile` (auth required)
-- User info: email, name, avatar (GitHub image or initials), account creation date
-- Usage stats: total items, total collections, breakdown per item type (snippets, prompts, notes, commands, links, files, images)
-- Change password action, shown only for email/password users (not GitHub OAuth)
-- Delete account action with a confirmation dialog
-- Follow existing patterns for data fetching (server components + `src/lib/db/*`) and components
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Reuse existing `UserAvatar` for the GitHub image / initials fallback
-- Sidebar `NavUser` dropdown already links to `/profile`
-- `src/proxy.ts` matcher currently only covers `/dashboard/:path*` - add `/profile` so the `authorized` callback protects it
-- Mutations (change password, delete account) as Server Actions in `src/actions/` with Zod validation and `{ success, data, error }` return pattern, feedback via toast
-- Delete account: Prisma relations cascade from User (items, collections, tags, accounts); `VerificationToken` rows are keyed by email (no relation), so delete them explicitly in the same transaction; sign the user out afterwards
-- Credentials users are identified by having a `password` hash set; change password should verify the current password with bcrypt
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -46,3 +36,4 @@ In Progress
 - 2026-10-20: Resend verification email completed - register keeps the user and returns emailSent (warning toast on failure), shared sendVerification() in src/lib/verification.ts, new tokens replace old ones, resendVerificationEmail server action with 60s cooldown derived from token expiry, ResendVerificationButton on sign-in form when needsVerification
 - 2026-10-20: Email verification toggle completed - EMAIL_VERIFICATION_ENABLED in src/lib/config.ts (enabled unless exactly "false"), disabled skips token/email on register, emailVerified check on sign-in and resend action, register returns verificationRequired for the toast, Resend client created lazily, variable documented in README
 - 2026-10-20: Forgot password completed - /forgot-password with generic response and silent 60s cooldown (credentials users only), 1h SHA-256-hashed reset tokens in VerificationToken under "password-reset:{email}", /reset-password page validates the token before showing the form, resetPassword action updates the hash + sets emailVerified + deletes tokens in one transaction, VerificationToast generalized to AuthToast, "Forgot password?" link on sign-in
+- 2026-11-24: Profile page completed - /profile in new (app) route group sharing the sidebar layout, protected via proxy matcher, getProfile() in src/lib/db/users.ts scoped to the session user (hasPassword flag instead of hash, per-type _count with zeros), changePassword action with bcrypt verification (dialog only for credentials users), deleteAccount action deletes user + email-keyed tokens in one transaction then signs out, shadcn dialog + alert-dialog
