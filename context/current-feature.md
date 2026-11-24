@@ -1,23 +1,16 @@
-# Current Feature: Auth Security Fixes
+# Current Feature
 
 ## Status
 
-In Progress
+Complete
 
 ## Goals
 
-- Verification and password reset links are built from a configured `APP_URL` instead of request headers (fixes password reset poisoning)
-- Emails are trimmed and lowercased in the shared Zod email schema, so case variants map to one account and one cooldown key
-- Email verification tokens are stored as SHA-256 hashes like reset tokens; lookup excludes password-reset identifiers
+<!-- goals for the current feature -->
 
 ## Notes
 
-- Source: findings 1-3 of `docs/audit-results/AUTH_SECURITY_REVIEW.md` (2026-11-24)
-- Next.js keeps a client-sent `x-forwarded-host` (`??=`), and the Server Action origin check compares against it, so `headers().get("origin")` / `request.url` are attacker-controllable
-- `APP_URL` is separate from `AUTH_URL` (used internally by NextAuth); document it in README, set it in production env
-- Email normalization via `z.string().trim().toLowerCase().pipe(z.email(...))` so normalization runs before format validation; DB check: no existing users with non-lowercase emails
-- Existing plaintext verification tokens become invalid after the change; affected users can request a new one via "Resend"
-- Rate limiting, demo-user scoping and JWT revalidation (findings 4-6) are out of scope
+<!-- additional context, constraints, or details from spec -->
 
 ## History
 
@@ -44,3 +37,4 @@ In Progress
 - 2026-10-20: Email verification toggle completed - EMAIL_VERIFICATION_ENABLED in src/lib/config.ts (enabled unless exactly "false"), disabled skips token/email on register, emailVerified check on sign-in and resend action, register returns verificationRequired for the toast, Resend client created lazily, variable documented in README
 - 2026-10-20: Forgot password completed - /forgot-password with generic response and silent 60s cooldown (credentials users only), 1h SHA-256-hashed reset tokens in VerificationToken under "password-reset:{email}", /reset-password page validates the token before showing the form, resetPassword action updates the hash + sets emailVerified + deletes tokens in one transaction, VerificationToast generalized to AuthToast, "Forgot password?" link on sign-in
 - 2026-11-24: Profile page completed - /profile in new (app) route group sharing the sidebar layout, protected via proxy matcher, getProfile() in src/lib/db/users.ts scoped to the session user (hasPassword flag instead of hash, per-type _count with zeros), changePassword action with bcrypt verification (dialog only for credentials users), deleteAccount action deletes user + email-keyed tokens in one transaction then signs out, shadcn dialog + alert-dialog
+- 2026-11-24: Auth security fixes completed (auth-auditor findings 1-3) - verification/reset links built from APP_URL in src/lib/config.ts (localhost fallback) instead of Origin header / request.url (password reset poisoning), emails trimmed + lowercased via z.string().trim().toLowerCase().pipe(z.email()), verification tokens stored as SHA-256 hashes with lookup excluding password-reset identifiers; rate limiting, demo-user scoping and JWT revalidation still open
